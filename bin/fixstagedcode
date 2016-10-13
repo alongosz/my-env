@@ -1,0 +1,8 @@
+#!/bin/bash
+
+git diff --cached --name-status --diff-filter=ACMRTU |awk '{print $2;}'|while read fn
+	do 
+		echo Fixing $fn
+		PHP_INI_SCAN_DIR=/etc/php/7.0/without_xdebug/conf.d/ php-cs-fixer --config-file=.php_cs fix $fn
+		sed -i -e '$a\' $fn
+	done
